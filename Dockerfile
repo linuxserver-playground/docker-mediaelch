@@ -27,7 +27,11 @@ RUN \
     qt6-image-formats-plugins && \
   echo "**** install mediaelch ****" && \
   mkdir -p /opt/mediaelch && \
-  DOWNLOAD_URL=$(curl -sX GET "https://api.github.com/repos/Komet/MediaElch/releases/latest" \
+  if [ -z ${MEDIAELCH_VERSION+x} ]; then \
+    MEDIAELCH_VERSION=$(curl -sX GET "https://api.github.com/repos/Komet/MediaElch/releases/latest" \
+      | jq -r '.tag_name'); \
+  fi && \
+  DOWNLOAD_URL=$(curl -sX GET "https://api.github.com/repos/Komet/MediaElch/releases/tags/${MEDIAELCH_VERSION}" \
     | jq -r 'first(.assets[].browser_download_url | select(test("MediaElch_linux.*AppImage")))') && \
   curl -o \
     /tmp/mediaelch.app -L \

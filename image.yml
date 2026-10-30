@@ -10,6 +10,8 @@ upstream:
   version:
     type: github_release
     repo: Komet/MediaElch
+    require_assets:
+      - asset: 'MediaElch_linux.*\.AppImage$'
   notes:
     type: github_release
     repo: Komet/MediaElch
